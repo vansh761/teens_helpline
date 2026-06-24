@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+:root {
+  /* --- Color tokens (no purple / pink / red / violet, per brief) --- */
+  --ink: #1c2b2a;          /* near-black teal-charcoal, primary text */
+  --ink-soft: #46554f;     /* secondary text */
+  --paper: #f7f4ec;        /* warm off-white background */
+  --paper-raised: #ffffff; /* card surfaces */
+  --evergreen: #2f5d50;    /* primary brand color */
+  --evergreen-dark: #213f37;
+  --evergreen-tint: #e7eee9;
+  --amber: #c97a2e;        /* warm accent, used for CTAs sparingly */
+  --amber-tint: #f6e7d3;
+  --sky: #4f7f8f;          /* secondary accent, calm/trust contexts */
+  --sky-tint: #e4edef;
+  --mist: #e4e0d2;         /* borders, dividers */
+  --mist-dark: #cdc8b6;
+  --gold-soft: #e2b85f;    /* highlight, ratings */
+
+  /* Fonts load via the @import above at runtime (CDN-served), with strong
+     system fallbacks so the page never blocks on a font fetch — this also
+     keeps local/CI builds working in environments without internet access
+     to fonts.googleapis.com. */
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --shadow-soft: 0 1px 2px rgba(28, 43, 42, 0.04), 0 8px 24px rgba(28, 43, 42, 0.06);
+  --shadow-lift: 0 4px 12px rgba(28, 43, 42, 0.08), 0 16px 40px rgba(28, 43, 42, 0.10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--evergreen);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Subtle texture line used as a section divider, echoing the path/trail motif */
+.trail-divider {
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--mist-dark) 0px,
+    var(--mist-dark) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+}
+
+.prose-article {
+  color: var(--ink);
+  line-height: 1.75;
+}
+.prose-article h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--evergreen-dark);
+}
+.prose-article h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-article p {
+  margin-bottom: 1.1rem;
+  color: var(--ink-soft);
+}
+.prose-article ul, .prose-article ol {
+  margin-bottom: 1.1rem;
+  padding-left: 1.4rem;
+  color: var(--ink-soft);
+}
+.prose-article li {
+  margin-bottom: 0.4rem;
+}
+.prose-article strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.prose-article a {
+  color: var(--evergreen);
+  text-decoration: underline;
+  text-decoration-color: var(--mist-dark);
+}

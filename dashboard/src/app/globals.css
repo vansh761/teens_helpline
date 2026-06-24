@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+:root {
+  /* Same token system as the public Teens Helpline website, so the two
+     apps feel like one product despite being separate deployments. */
+  --ink: #1c2b2a;
+  --ink-soft: #46554f;
+  --paper: #f7f4ec;
+  --paper-raised: #ffffff;
+  --evergreen: #2f5d50;
+  --evergreen-dark: #213f37;
+  --evergreen-tint: #e7eee9;
+  --amber: #c97a2e;
+  --amber-tint: #f6e7d3;
+  --sky: #4f7f8f;
+  --sky-tint: #e4edef;
+  --mist: #e4e0d2;
+  --mist-dark: #cdc8b6;
+  --gold-soft: #e2b85f;
+
+  /* Status colors for booking states — greens/ambers/grays only, no red,
+     per brief. "Cancelled" uses a muted gray-brown rather than red. */
+  --status-pending-bg: #f6e7d3;
+  --status-pending-fg: #7a4a1a;
+  --status-confirmed-bg: #e7eee9;
+  --status-confirmed-fg: #1f4438;
+  --status-completed-bg: #e4edef;
+  --status-completed-fg: #2c4a55;
+  --status-cancelled-bg: #ece8de;
+  --status-cancelled-fg: #5c5648;
+
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --shadow-soft: 0 1px 2px rgba(28, 43, 42, 0.04), 0 8px 24px rgba(28, 43, 42, 0.06);
+  --shadow-lift: 0 4px 12px rgba(28, 43, 42, 0.08), 0 16px 40px rgba(28, 43, 42, 0.10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--evergreen);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.trail-divider {
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--mist-dark) 0px,
+    var(--mist-dark) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
