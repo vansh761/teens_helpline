@@ -11,9 +11,39 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-20 sm:pt-24 sm:pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="max-w-2xl">
-      {/* ...keep all existing hero text and buttons exactly as they are... */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div className="max-w-2xl">
+      <span
+        className="inline-block text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full mb-6"
+        style={{ background: "var(--amber-tint)", color: "#7a4a1a" }}
+      >
+        For ages 13&ndash;19 &middot; Free &middot; Always judgement-free
+      </span>
+      <h1 className="font-display text-4xl sm:text-5xl font-semibold leading-[1.1] tracking-tight mb-6" style={{ color: "var(--ink)" }}>
+        Whatever you&apos;re stuck on, there&apos;s a way through it.
+      </h1>
+      <p className="text-lg leading-relaxed mb-9 max-w-xl" style={{ color: "var(--ink-soft)" }}>
+        Teens Helpline is a space built for you — doubts about schoolwork,
+        career confusion, friend group pressure, or stress that&apos;s
+        getting hard to carry. Talk it through, read what&apos;s helped
+        others, or book time with a real counsellor.
+      </p>
+      <div className="flex flex-wrap gap-3">
+        <Link
+          href="/chat"
+          className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-3 rounded-[var(--radius-sm)] transition-opacity hover:opacity-90"
+          style={{ background: "var(--evergreen)", color: "var(--paper)" }}
+        >
+          Start a conversation
+        </Link>
+        <Link
+          href="/resources"
+          className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-3 rounded-[var(--radius-sm)] border transition-colors hover:bg-white"
+          style={{ borderColor: "var(--mist-dark)", color: "var(--ink)" }}
+        >
+          Browse guidance topics
+        </Link>
+      </div>
     </div>
 
     <div className="hidden lg:block">
