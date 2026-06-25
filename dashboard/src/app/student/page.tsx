@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { RequireRole } from "@/components/RequireRole";
 import { useAuth } from "@/context/AuthContext";
 import { apiFetch, ApiError } from "@/lib/api";
@@ -24,8 +24,14 @@ function StudentHomeInner() {
   const [bookingSlotId, setBookingSlotId] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
   const [feedback, setFeedback] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  async function loadSlots() {
+  const loadSlots = useCallback(async () => {
+    // Cancel any previous in-flight request to avoid stale state updates
+    // that trigger the "async response / message channel closed" error.
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
     setLoading(true);
     setError(null);
     try {
@@ -33,16 +39,17 @@ function StudentHomeInner() {
       const data = await apiFetch<SlotWithCounselorOut[]>(`/slots/open${qs}`, {}, token);
       setSlots(data);
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
       setError(err instanceof ApiError ? err.message : "Could not load available sessions.");
     } finally {
       setLoading(false);
     }
-  }
+  }, [filter, token]);
 
   useEffect(() => {
     loadSlots();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, token]);
+    return () => abortRef.current?.abort();
+  }, [loadSlots]);
 
   async function handleBook(slotId: number) {
     setFeedback(null);
