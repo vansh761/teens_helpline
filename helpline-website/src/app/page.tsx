@@ -11,15 +11,15 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 pb-20 sm:pt-24 sm:pb-28">
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-    <div className="max-w-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-2xl">
       {/* ...keep all existing hero text and buttons exactly as they are... */}
     </div>
 
     <div className="hidden lg:block">
       <img
         src="/hero-illustration.png"
-        alt=""
+        alt="Illustration of a teenager at a signpost choosing between career, doubts, and stress guidance"
         className="w-full rounded-[var(--radius-lg)]"
       />
     </div>
