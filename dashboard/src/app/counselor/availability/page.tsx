@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { RequireRole } from "@/components/RequireRole";
 import { useAuth } from "@/context/AuthContext";
 import { apiFetch, ApiError } from "@/lib/api";
@@ -15,23 +15,27 @@ function AvailabilityInner() {
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ date: "", startTime: "", durationMinutes: "30" });
   const [creating, setCreating] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
 
-  async function load() {
+  const load = useCallback(async () => {
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
     setLoading(true);
     try {
       const data = await apiFetch<SlotOut[]>("/slots/mine", {}, token);
       setSlots(data);
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
       setError(err instanceof ApiError ? err.message : "Could not load your availability.");
     } finally {
       setLoading(false);
     }
-  }
+  }, [token]);
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    return () => abortRef.current?.abort();
+  }, [load]);
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
