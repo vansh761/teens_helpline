@@ -15,10 +15,12 @@ function AdminBookingsInner() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     apiFetch<BookingDetailOut[]>("/bookings/all", {}, token)
-      .then(setBookings)
-      .catch((err) => setError(err instanceof ApiError ? err.message : "Could not load bookings."))
-      .finally(() => setLoading(false));
+      .then((data) => { if (!cancelled) setBookings(data); })
+      .catch((err) => { if (!cancelled) setError(err instanceof ApiError ? err.message : "Could not load bookings."); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [token]);
 
   return (
