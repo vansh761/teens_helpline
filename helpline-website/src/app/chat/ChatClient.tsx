@@ -31,9 +31,16 @@ export function ChatClient() {
   const [loading, setLoading] = useState(false);
   const sessionIdRef = useRef<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     sessionIdRef.current = getOrCreateSessionId();
+    // Cancel any in-flight request when the component unmounts to prevent
+    // the "A listener indicated an asynchronous response … message channel
+    // closed before a response was received" error.
+    return () => {
+      abortControllerRef.current?.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -48,6 +55,11 @@ export function ChatClient() {
     setInput("");
     setLoading(true);
 
+    // Cancel any previous in-flight request before starting a new one.
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     try {
       const res = await fetch(`${API_BASE_URL}/chat`, {
         method: "POST",
@@ -57,13 +69,16 @@ export function ChatClient() {
           message: text,
           category: topic ?? undefined,
         }),
+        signal: controller.signal,
       });
 
       if (!res.ok) throw new Error("Request failed");
       const data: { reply: string; flagged_for_crisis: boolean } = await res.json();
 
       setMessages((prev) => [...prev, { role: "assistant", text: data.reply, flagged: data.flagged_for_crisis }]);
-    } catch {
+    } catch (err) {
+      // Don't show an error if the request was intentionally aborted (e.g. on unmount).
+      if (err instanceof Error && err.name === "AbortError") return;
       setMessages((prev) => [
         ...prev,
         {
