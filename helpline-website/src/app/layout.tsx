@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Teens Helpline — Guidance for doubts, career, and tough days",
   description:
     "A free, judgement-free space for teenagers 13-19 to get help with doubts, career guidance, peer pressure, stress and anxiety.",
+  // Explicitly set metadataBase so Next.js doesn't generate stale open-graph
+  // preload hints pointing at removed assets like hero-illustration.png.
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://teens-helpline-sepia.vercel.app"
+  ),
 };
 
 export default function RootLayout({
