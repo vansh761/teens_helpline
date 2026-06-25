@@ -26,7 +26,7 @@ export function SiteHeader() {
           <LogoWithWordmark size={34} />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium" style={{ color: "var(--ink-soft)" }}>
+        <nav className="flex items-center gap-4 sm:gap-7 text-sm font-medium flex-wrap" style={{ color: "var(--ink-soft)" }}>
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="hover:opacity-70 transition-opacity">
               {link.label}
