@@ -17,15 +17,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
-  if (!article) notFound();
-  ...
-}
-
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
   if (!article) notFound();
 
   const topic = getTopic(article.topic);
