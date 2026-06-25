@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { RequireRole } from "@/components/RequireRole";
 import { useAuth } from "@/context/AuthContext";
 import { apiFetch, ApiError } from "@/lib/api";
@@ -13,23 +13,27 @@ function MyBookingsInner() {
   const [bookings, setBookings] = useState<BookingDetailOut[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  async function load() {
+  const load = useCallback(async () => {
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
     setLoading(true);
     try {
       const data = await apiFetch<BookingDetailOut[]>("/bookings/mine", {}, token);
       setBookings(data);
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
       setError(err instanceof ApiError ? err.message : "Could not load your bookings.");
     } finally {
       setLoading(false);
     }
-  }
+  }, [token]);
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    return () => abortRef.current?.abort();
+  }, [load]);
 
   async function handleCancel(bookingId: number) {
     try {
