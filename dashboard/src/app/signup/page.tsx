@@ -54,6 +54,14 @@ export default function SignupPage() {
         an administrator.
       </p>
 
+      <div className="mb-6 p-4 rounded-[var(--radius-md)]" style={{ background: "var(--sky-tint)" }}>
+        <p className="text-sm" style={{ color: "var(--ink)" }}>
+          This form creates a <strong>student</strong> account. Counsellor and
+          admin accounts are created by an administrator — if you&apos;re a
+          counsellor, ask your admin to set up your login instead.
+        </p>
+      </div>
+      
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Field label="Full name">
           <input
